@@ -8,10 +8,15 @@ public class PlaceTrap : MonoBehaviour {
     public Transform trapPointsItem;
     private Transform[] trapPoints;
 
+    public int baseMoney = 200;
+    public int bonusMoney = 500;
+
     private float radius = 0.75f;
     private int trapIndex;
 
     private bool spawn = false;
+
+    private int money;
 
     // Use this for initialization
     void Start() {
@@ -23,7 +28,9 @@ public class PlaceTrap : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        //Debug.Log(transform.right);
+        if (money <= 0)
+            return;
+
         if (transform.right.x == 1 || transform.right.x == -1) {
             float dist;
             for (int i = 0; i < trapPointsItem.childCount; i++) {
@@ -57,14 +64,17 @@ public class PlaceTrap : MonoBehaviour {
 
         int key = -1;
         if (spawn) {
-            if (Input.GetKey(KeyCode.Alpha1)) {
+            if (Input.GetKey(KeyCode.Alpha1)) { //Pinchos
                 key = 0;
+                money -= 50;
             }
-            else if (Input.GetKey(KeyCode.Alpha2)) {
+            else if (Input.GetKey(KeyCode.Alpha2)) { //Laser
                 key = 1;
+                money -= 50;
             }
-            else if (Input.GetKey(KeyCode.Alpha3)) {
+            else if (Input.GetKey(KeyCode.Alpha3)) { //Bola
                 key = 2;
+                money -= 50;
             }
 
             if (key != -1) {
@@ -89,5 +99,9 @@ public class PlaceTrap : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void SetMoney(float reward) {
+        this.money = baseMoney + (int)(bonusMoney * reward);
     }
 }

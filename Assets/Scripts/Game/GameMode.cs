@@ -66,7 +66,7 @@ public class GameMode : MonoBehaviour {
             mTotalPoints = bonusPoints + basePoints;
         else if (mPuzzleTimer < timeToLoseAllBonus)
         {
-            
+
             mTotalPoints = (int)((float)(bonusPoints) * (1f - (mPuzzleTimer - timeWithoutLosingPoints) / (timeToLoseAllBonus - timeWithoutLosingPoints)));
             mTotalPoints += basePoints;
         }
@@ -74,5 +74,4 @@ public class GameMode : MonoBehaviour {
             mTotalPoints = basePoints;
         return mTotalPoints;
     }
-    
 }
