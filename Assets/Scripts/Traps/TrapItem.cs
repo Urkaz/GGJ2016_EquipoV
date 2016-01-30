@@ -16,7 +16,7 @@ public class TrapItem : MonoBehaviour {
 
         if (cdTimer - Time.deltaTime > 0) {
             cdTimer -= Time.deltaTime;
-            Debug.Log(cdTimer);
+            //Debug.Log(cdTimer);
         }
         else {
             cdTimer = 0;
@@ -38,4 +38,8 @@ public class TrapItem : MonoBehaviour {
     }
 
     public virtual void RunAnimation(float delta) { }
+
+    public void enableCooldown() {
+        cdTimer = cooldown;
+    }
 }
