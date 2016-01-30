@@ -193,4 +193,9 @@ public class CameraRotation : MonoBehaviour {
     {
         return mPreviousCardinalPosition;
     }
+
+    public CardinalPosition GetCardinalPosition()
+    {
+        return mCardinalPosition;
+    }
 }

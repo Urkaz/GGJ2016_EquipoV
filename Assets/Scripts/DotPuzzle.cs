@@ -165,10 +165,12 @@ public class DotPuzzle : MonoBehaviour {
         {
             //DO SOMETHING WHILE TRANSITIONING?
             transitionSeconds -= Time.deltaTime;
-            Reward = intents;
+            Reward = (int) intents / 3 * 100;
             rewardText.SetActive(true);
-            rewardText.GetComponent<TextMesh>().text = "+" + intents;
-            rewardImage.SetActive(true);
+
+            //SHOW REWARD SOMEHOW
+            //rewardText.GetComponent<TextMesh>().text = "+" + intents;
+            //rewardImage.SetActive(true);
 
             if (transitionSeconds <= 0) SceneManager.LoadScene(2);
         }
