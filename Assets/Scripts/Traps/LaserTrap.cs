@@ -3,7 +3,6 @@ using System.Collections;
 
 public class LaserTrap : TrapItem {
 
-    private Transform laserItem;
     private Transform laserSpawn;
     LineRenderer lineRenderer;
 
@@ -18,28 +17,28 @@ public class LaserTrap : TrapItem {
 
     public float heightDisplacement = 0.5f;
 
-    //public ArrayList<Enemy> collidedEnemies;
+    private ArrayList collidedEnemies;
 
     // Use this for initialization
     void Start() {
-        laserItem = transform.Find("LaserSupport");
-        laserSpawn = laserItem.Find("LaserStartPoint");
-        lineRenderer = laserItem.Find("LaserStartPoint").GetComponent<LineRenderer>();
+        laserSpawn = transform.Find("LaserStartPoint");
+        lineRenderer = transform.Find("LaserStartPoint").GetComponent<LineRenderer>();
         lineRenderer.enabled = false;
     }
 
     public override void RunAnimation(float delta) {
         switch (state) {
             case State.DISABLED:
+                collidedEnemies = new ArrayList();
                 state = State.DOWN;
                 break;
             //El laser baja
             case State.DOWN:
 
-                if ((laserItem.localPosition.y - delta) > -heightDisplacement)
-                    laserItem.Translate(0, -delta, 0);
+                if ((transform.localPosition.y - delta) > -heightDisplacement)
+                    transform.Translate(0, -delta, 0);
                 else {
-                    laserItem.localPosition = new Vector3(0, -heightDisplacement, 0);
+                    transform.localPosition = new Vector3(0, -heightDisplacement, 0);
                     lineRenderer.enabled = true;
                     state = State.LASER;
                 }
@@ -55,8 +54,16 @@ public class LaserTrap : TrapItem {
 
                 lineRenderer.SetPosition(1, new Vector3(0, 0, lineDistance));
 
-                //guardar enemigos colisionados en collidedEnemies
-                //dañar a los que no esten en esa lista
+                if (hitinfo.collider != null) {
+                    EnemyDamage ed = hitinfo.collider.GetComponent<EnemyDamage>();
+
+                    if (ed != null) {
+                        if (!collidedEnemies.Contains(ed)) {
+                            collidedEnemies.Add(ed);
+                            ed.Damage(1);
+                        }
+                    }
+                }
 
                 timer += delta;
                 if (timer > timeToStop) {
@@ -68,10 +75,10 @@ public class LaserTrap : TrapItem {
                 break;
             //El laser sube
             case State.UP:
-                if ((laserItem.localPosition.y + delta) < 0)
-                    laserItem.Translate(0, delta, 0);
+                if ((transform.localPosition.y + delta) < 0)
+                    transform.Translate(0, delta, 0);
                 else {
-                    laserItem.localPosition = new Vector3(0, 0, 0);
+                    transform.localPosition = new Vector3(0, 0, 0);
                     state = State.DISABLED;
                     isEnabled = false;
                 }

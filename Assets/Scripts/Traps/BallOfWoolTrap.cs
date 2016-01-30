@@ -3,29 +3,26 @@ using System.Collections;
 
 public class BallOfWoolTrap : TrapItem {
 
-    private Transform pendulumItem;
-
     public uint maxAngle = 50;
     public float rotationSpeed = 100;
 
     private int direction = -1;
 
     public void Start() {
-        pendulumItem = transform.Find("Pendulum");
-        pendulumItem.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
+        transform.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
     }
 
     public override void RunAnimation(float delta) {
         float rotationAngle = delta * rotationSpeed;
 
-        float currentAngle = pendulumItem.localEulerAngles.z;
+        float currentAngle = transform.localEulerAngles.z;
         currentAngle = (currentAngle > 180) ? currentAngle - 360 : currentAngle;
 
         if (direction == 1) {
             if (currentAngle + rotationAngle < maxAngle)
-                pendulumItem.Rotate(new Vector3(0, 0, rotationAngle));
+                transform.Rotate(new Vector3(0, 0, rotationAngle));
             else {
-                pendulumItem.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
                 direction = -1;
                 isEnabled = false;
             }
@@ -34,17 +31,20 @@ public class BallOfWoolTrap : TrapItem {
 
 
             if (currentAngle - rotationAngle > -maxAngle) {
-                pendulumItem.Rotate(new Vector3(0, 0, -rotationAngle));
+                transform.Rotate(new Vector3(0, 0, -rotationAngle));
             }
             else {
-                pendulumItem.rotation = Quaternion.Euler(new Vector3(0, 0, -maxAngle));
+                transform.rotation = Quaternion.Euler(new Vector3(0, 0, -maxAngle));
                 direction = 1;
                 isEnabled = false;
             }
         }
     }
 
-    void OnCollisionEnter(Collision collision) {
-        //collision.other; ->Cast to enemy and damage.
+    public void OnTriggerEnter(Collider collider) {
+        EnemyDamage ed = collider.GetComponent<EnemyDamage>();
+        if (ed != null) {
+            ed.Damage(1);
+        }
     }
 }
