@@ -28,9 +28,11 @@ public class GameManager : MonoBehaviour {
         }
 
         player = GameObject.FindWithTag("Player");
+        player.GetComponent<PlaceTrap>().SetMoney(DotPuzzle.Reward);
     }
 
     public void startGame() {
+
         player.GetComponent<PlaceTrap>().enabled = false;
         player.GetComponent<TrapActivator>().enabled = true;
 
