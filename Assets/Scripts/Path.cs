@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class Path : MonoBehaviour {
-
+    
     public PathNode root;
 
 	// Use this for initialization

@@ -21,6 +21,7 @@ public class PlayerControl : MonoBehaviour {
     void Start () {
         objectRigidbody = GetComponent<Rigidbody>();
         mCardinalPosition = camera.GetPreviousCardinalPosition();
+        ChangePosition(mCardinalPosition);
 	}
 	
 	// Update is called once per frame
