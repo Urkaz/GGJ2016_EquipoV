@@ -90,7 +90,7 @@ public class LaserTrap : TrapItem {
         if (laserSpawn != null) {
             Gizmos.color = Color.red;
             //Gizmos.DrawLine(laserSpawn.position, laserSpawn.position + new Vector3(0, 0, lineDistance * laserSpawn.forward.z));
-            Gizmos.DrawSphere(laserSpawn.position + new Vector3(0, 0, lineDistance), 0.2f);
+            Gizmos.DrawSphere(laserSpawn.position + new Vector3(0, 0, lineDistance * laserSpawn.forward.z), 0.2f);
         }
     }
 }

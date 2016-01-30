@@ -5,8 +5,24 @@ public class TrapItem : MonoBehaviour {
 
     protected bool isEnabled = false;
 
+    public float cooldown = 5;
+    private float cdTimer = 0;
+
     // Update is called once per frame
     void Update() {
+
+        if (Input.GetKey(KeyCode.Z))
+            ActivateTrap();
+
+        if (cdTimer - Time.deltaTime > 0) {
+            cdTimer -= Time.deltaTime;
+            Debug.Log(cdTimer);
+        }
+        else {
+            cdTimer = 0;
+        }
+
+
         if (isEnabled) {
             RunAnimation(Time.deltaTime);
         }
@@ -14,7 +30,10 @@ public class TrapItem : MonoBehaviour {
 
     public void ActivateTrap() {
         if (!isEnabled) {
-            isEnabled = true;
+            if (cdTimer == 0) {
+                isEnabled = true;
+                cdTimer = cooldown;
+            }
         }
     }
 

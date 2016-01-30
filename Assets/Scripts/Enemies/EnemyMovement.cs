@@ -100,7 +100,7 @@ public class EnemyMovement : MonoBehaviour
 
             //jumpDirection.Normalize();
             //jumpDirection.y *= jumpForceV;
-            Debug.Log(jumpDirection);
+            //Debug.Log(jumpDirection);
             enemyRigidbody.AddForce(jumpDirection);
             littleJump = false;
             recover = false;
