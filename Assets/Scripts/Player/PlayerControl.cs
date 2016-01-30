@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerControl : MonoBehaviour {
 
     public float maxSpeed = 50f;
-    public float acceleration = 10f;
+    public float playerSpeed = 10f;
 
     public CameraRotation camera;
     private CardinalPosition mCardinalPosition;
@@ -14,12 +14,10 @@ public class PlayerControl : MonoBehaviour {
     public Transform southWall;
     public Transform eastWall;
     public Transform westWall;
-
-    private Rigidbody objectRigidbody;
+    
 
     // Use this for initialization
     void Start () {
-        objectRigidbody = GetComponent<Rigidbody>();
         mCardinalPosition = camera.GetPreviousCardinalPosition();
         ChangePosition(mCardinalPosition);
 	}
@@ -32,23 +30,16 @@ public class PlayerControl : MonoBehaviour {
         {
             mCardinalPosition = cameraCardinalPosition;
             ChangePosition(mCardinalPosition);
-            objectRigidbody.velocity = new Vector3();
         }
-	}
+        PlayerMovement();
+    }
 
     void FixedUpdate()
     {
-        PlayerMovement();
     }
 
     private void ChangePosition(CardinalPosition cardinalPosition)
     {
-        if(cardinalPosition == CardinalPosition.North || cardinalPosition == CardinalPosition.South)
-        {
-            objectRigidbody.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezeRotation;
-        }
-        else
-            objectRigidbody.constraints = RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
 
         Vector3 newPlayerPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 
@@ -73,15 +64,36 @@ public class PlayerControl : MonoBehaviour {
 
     private void PlayerMovement()
     {
-        if (objectRigidbody.velocity.magnitude > maxSpeed)
+
+        if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
             return;
-
         Vector3 force = new Vector3();
-        force.y = Input.GetAxis("Vertical");
-        force += camera.transform.right * Input.GetAxis("Horizontal");
-        force.Normalize();
-        force *= acceleration;
+        float horizontalOutput = 0f;
+        float verticalOutput = 0f;
+        if (Input.GetKey(KeyCode.W))
+            verticalOutput += 1f;
+        if(Input.GetKey(KeyCode.S))
+            verticalOutput -= 1f;
 
-        objectRigidbody.AddForce(force);
+        force.y = verticalOutput;
+
+        Vector3 cameraVector = camera.transform.right;
+        cameraVector.y = 0;
+        cameraVector.Normalize();
+        if (Input.GetKey(KeyCode.D))
+            horizontalOutput += 1f;
+        
+        if (Input.GetKey(KeyCode.A))
+            horizontalOutput -= 1f;
+
+        force += cameraVector * horizontalOutput;
+
+        /*
+        force.y = Input.GetAxis("Vertical");
+        force += camera.transform.right * Input.GetAxis("Horizontal");*/
+        force.Normalize();
+        force *= playerSpeed * Time.deltaTime;
+
+        transform.position += force;
     }
 }
