@@ -63,7 +63,7 @@ public class PlaceTrap : MonoBehaviour {
 
                 if (transform.right.x == 1 || transform.right.x == -1) {
                     Transform ti = (Transform)Instantiate(trapList[key], trapPoints[trapIndex].position, rotation);
-                    trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject);
+                    trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject, key);
                 }
             }
         }

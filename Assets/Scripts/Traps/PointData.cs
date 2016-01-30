@@ -5,16 +5,18 @@ public class PointData : MonoBehaviour {
 
     private bool isOccuppied = false;
     private GameObject item = null;
+    private int id = -1;
 
-    public void setItem(GameObject item) {
+    public void setItem(GameObject item, int id) {
         this.item = item;
-    }
-
-    public void setOccuppied(bool occuppied) {
-        isOccuppied = occuppied;
+        this.id = id;
     }
 
     public GameObject getItem() {
         return item;
+    }
+
+    public int getID() {
+        return id;
     }
 }
