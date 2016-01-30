@@ -11,7 +11,6 @@ public class DotObject : MonoBehaviour {
         mainColor = GetComponent<MeshRenderer>().material.GetColor("_Color");
     }
 
-
     void Update()
     {
         if(dotEnabled && gameObject.layer.Equals(LayerMask.NameToLayer("Result"))) GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
