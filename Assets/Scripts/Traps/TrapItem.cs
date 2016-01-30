@@ -7,10 +7,6 @@ public class TrapItem : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            ActivateTrap();
-        }
-
         if (isEnabled) {
             RunAnimation(Time.deltaTime);
         }
