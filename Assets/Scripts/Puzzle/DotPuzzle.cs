@@ -77,10 +77,6 @@ public class DotPuzzle : MonoBehaviour {
         }
 
         mouseBandage.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
-    }
-	
-	// Update is called once per frame
-	void FixedUpdate () {
 
         if (Input.GetMouseButtonDown(0) && !puzzleSolved)
         {
@@ -96,7 +92,7 @@ public class DotPuzzle : MonoBehaviour {
                         pointObjects[i].GetComponent<DotObject>().dotEnabled = true;
                         bandage.transform.position = startPoint;
                         firstClick = true;
-                    }  
+                    }
                 }
             }
             else
@@ -108,7 +104,7 @@ public class DotPuzzle : MonoBehaviour {
                     if (pointObjects[i].GetComponent<SphereCollider>().bounds.Contains(endPoint))
                     {
                         bandageNum--;
-                        if(bandageNum >= 0) bandagesGUI[bandageNum].SetActive(false);
+                        if (bandageNum >= 0) bandagesGUI[bandageNum].SetActive(false);
                         pointObjects[i].GetComponent<DotObject>().dotEnabled = true;
 
                         RaycastHit hit;
@@ -141,7 +137,7 @@ public class DotPuzzle : MonoBehaviour {
                 }
             }
 
-            if(bandageNum == 0)
+            if (bandageNum == 0)
             {
                 float dotsFound = 0;
 
@@ -157,7 +153,7 @@ public class DotPuzzle : MonoBehaviour {
                 else
                 {
                     intents--;
-                    if(intents >= 0) Reset();
+                    if (intents >= 0) Reset();
                 }
             }
         }
@@ -165,8 +161,8 @@ public class DotPuzzle : MonoBehaviour {
         {
             //DO SOMETHING WHILE TRANSITIONING?
             transitionSeconds -= Time.deltaTime;
-            Reward = (int) intents / 3 * 100;
-            rewardText.SetActive(true);
+            Reward = (int)intents / 3 * 100;
+            //rewardText.SetActive(true);
 
             //SHOW REWARD SOMEHOW
             //rewardText.GetComponent<TextMesh>().text = "+" + intents;
@@ -175,6 +171,7 @@ public class DotPuzzle : MonoBehaviour {
             if (transitionSeconds <= 0) SceneManager.LoadScene(2);
         }
     }
+	
 
     void Reset()
     {
