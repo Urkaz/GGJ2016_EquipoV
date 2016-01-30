@@ -9,7 +9,7 @@ public class BallOfWoolTrap : TrapItem {
     private int direction = -1;
 
     public void Start() {
-        transform.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
+        transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, maxAngle));
     }
 
     public override void RunAnimation(float delta) {
@@ -22,7 +22,7 @@ public class BallOfWoolTrap : TrapItem {
             if (currentAngle + rotationAngle < maxAngle)
                 transform.Rotate(new Vector3(0, 0, rotationAngle));
             else {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, maxAngle));
+                transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, maxAngle));
                 direction = -1;
                 isEnabled = false;
             }
@@ -34,7 +34,7 @@ public class BallOfWoolTrap : TrapItem {
                 transform.Rotate(new Vector3(0, 0, -rotationAngle));
             }
             else {
-                transform.rotation = Quaternion.Euler(new Vector3(0, 0, -maxAngle));
+                transform.rotation = Quaternion.Euler(new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, -maxAngle));
                 direction = 1;
                 isEnabled = false;
             }
