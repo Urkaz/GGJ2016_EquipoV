@@ -28,6 +28,7 @@ public class PlaceTrap : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
+
         if (money <= 0)
             return;
 

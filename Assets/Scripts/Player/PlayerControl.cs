@@ -94,6 +94,7 @@ public class PlayerControl : MonoBehaviour {
         force.Normalize();
         force *= playerSpeed * Time.deltaTime;
 
+
         transform.position += force;
     }
 }
