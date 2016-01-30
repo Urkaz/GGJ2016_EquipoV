@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GroudTrap : TrapItem {
+public class GroundTrap : TrapItem {
 
     public float heightDisplacement = 0.2f;
     private int direction = 1;
