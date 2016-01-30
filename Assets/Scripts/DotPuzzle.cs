@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 
 public class DotPuzzle : MonoBehaviour {
@@ -9,7 +10,8 @@ public class DotPuzzle : MonoBehaviour {
     GameObject[] bandagesGUI;
     GameObject bandage;
     int bandageNum = 4;
-    Quaternion initRot;
+    int intents = 3;
+    GameObject mouseBandage;
 
     Vector3 startPoint;
     Vector3 endPoint;
@@ -17,9 +19,12 @@ public class DotPuzzle : MonoBehaviour {
     bool firstClick = false;
     bool puzzleSolved = false;
     float timeToSolve = 0;
+    float transitionSeconds = 3.0f;
 
     public static int Reward;
-    GameObject timeText;
+    GameObject intentText;
+    GameObject rewardText;
+    GameObject rewardImage;
 
 	// Use this for initialization
 	void Start () {
@@ -27,8 +32,12 @@ public class DotPuzzle : MonoBehaviour {
         pointObjects = GameObject.FindGameObjectsWithTag("Dot");
         bandage = GameObject.Find("BandageRenderers");
         bandagesGUI = GameObject.FindGameObjectsWithTag("Bandage");
-        timeText = GameObject.Find("DeltaTimeText");
-        initRot = bandage.transform.rotation;
+        intentText = GameObject.Find("IntentText");
+        rewardText = GameObject.Find("RewardText");
+        rewardText.SetActive(false);
+        rewardImage = GameObject.Find("RewardImage");
+        rewardImage.SetActive(false);
+        mouseBandage = GameObject.Find("BandageMouse");
         bandage.SetActive(false);
 
         startPoint = new Vector3();
@@ -38,7 +47,36 @@ public class DotPuzzle : MonoBehaviour {
     void Update()
     {
         timeToSolve += Time.deltaTime;
-        if (!puzzleSolved) timeText.GetComponent<TextMesh>().text = Mathf.Round(timeToSolve * 100f) / 100f + "";
+        //if (!puzzleSolved) intentText.GetComponent<TextMesh>().text = Mathf.Round(timeToSolve * 10f) / 10f + "";
+
+        switch (intents)
+        {
+            case 0:
+                intentText.GetComponent<TextMesh>().text = "";
+                    break;
+            case 1:
+                intentText.GetComponent<TextMesh>().text = "I";
+                break;
+            case 2:
+                intentText.GetComponent<TextMesh>().text = "I I";
+                break;
+            case 3:
+                intentText.GetComponent<TextMesh>().text = "I I I";
+                break;
+        }
+
+        for (int i = 0; i < pointObjects.Length; i++)
+        {
+            if (pointObjects[i].GetComponent<SphereCollider>().bounds.Contains(new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0)))
+            {
+                mouseBandage.GetComponent<Renderer>().enabled = true;
+                break;
+            }
+            else
+                mouseBandage.GetComponent<Renderer>().enabled = false;
+        }
+
+        mouseBandage.transform.position = new Vector3(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y, 0);
     }
 	
 	// Update is called once per frame
@@ -70,20 +108,25 @@ public class DotPuzzle : MonoBehaviour {
                     if (pointObjects[i].GetComponent<SphereCollider>().bounds.Contains(endPoint))
                     {
                         bandageNum--;
-                        bandagesGUI[bandageNum].SetActive(false);
+                        if(bandageNum >= 0) bandagesGUI[bandageNum].SetActive(false);
                         pointObjects[i].GetComponent<DotObject>().dotEnabled = true;
 
                         RaycastHit hit;
 
-                        Debug.DrawLine(pointObjects[i].transform.position, startPoint, Color.red, 60);
+                        //Debug.DrawLine(pointObjects[i].transform.position, startPoint, Color.red, 60);
+                        //Debug.DrawRay(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, Color.red, 60);
 
                         if (Physics.Raycast(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, out hit, 1000))
                         {
                             hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
 
+                            //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
+
                             if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                             {
                                 hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
+
+                                //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
 
                                 if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                                 {
@@ -91,11 +134,11 @@ public class DotPuzzle : MonoBehaviour {
                                 }
                             }
                         }
+
+                        lineRenderers[bandageNum].GetComponent<LineRenderer>().SetPositions(new Vector3[] { startPoint, endPoint });
+                        startPoint = endPoint;
                     }
                 }
-
-                lineRenderers[bandageNum].GetComponent<LineRenderer>().SetPositions(new Vector3[] { startPoint, endPoint });
-                startPoint = endPoint;
             }
 
             if(bandageNum == 0)
@@ -109,12 +152,25 @@ public class DotPuzzle : MonoBehaviour {
                 }
 
                 if (dotsFound == 9)
-                {
                     puzzleSolved = true;
-                    //reward = something;
+
+                else
+                {
+                    intents--;
+                    if(intents >= 0) Reset();
                 }
-                else Reset();
             }
+        }
+        else if (puzzleSolved || intents < 0)
+        {
+            //DO SOMETHING WHILE TRANSITIONING?
+            transitionSeconds -= Time.deltaTime;
+            Reward = intents;
+            rewardText.SetActive(true);
+            rewardText.GetComponent<TextMesh>().text = "+" + intents;
+            rewardImage.SetActive(true);
+
+            if (transitionSeconds <= 0) SceneManager.LoadScene(2);
         }
     }
 
