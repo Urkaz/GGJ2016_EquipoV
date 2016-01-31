@@ -8,7 +8,6 @@ public class GUIManager : MonoBehaviour {
     public GameObject woolText;
     public GameObject sandText;
     public GameObject laserText;
-    public GameObject enemiesText;
     public GameObject warningRight;
     public GameObject warningLeft;
     public bool leftRepeating;
@@ -25,7 +24,6 @@ public class GUIManager : MonoBehaviour {
         woolText = GameObject.Find("WoolText");
         sandText = GameObject.Find("SandText");
         laserText = GameObject.Find("LaserText");
-        enemiesText = GameObject.Find("EnemiesText");
         warningRight = GameObject.Find("WarningRight");
         warningRight.SetActive(false);
         warningLeft = GameObject.Find("WarningLeft");
