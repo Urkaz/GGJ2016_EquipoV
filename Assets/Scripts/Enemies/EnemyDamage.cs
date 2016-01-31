@@ -21,13 +21,13 @@ public class EnemyDamage : MonoBehaviour {
         Texture2D noiseTexture = Resources.Load("Images/noise") as Texture2D;
         Texture2D burnRampTexture = Resources.Load("Images/burn") as Texture2D;
 
-        dissolveMaterial = new Material(Shader.Find("Custom/Dissolve"));
+        /*dissolveMaterial = new Material(Shader.Find("Custom/Dissolve"));
         //dissolveMaterial.SetTexture("_MainTex",mainTexture);
         dissolveMaterial.SetTexture("_SliceGuide", noiseTexture);
         dissolveMaterial.SetTexture("_BurnRamp", burnRampTexture);
         dissolveMaterial.SetFloat("_SliceAmount", 0.15f);
 
-        GetComponent<Renderer>().material = dissolveMaterial;
+        GetComponent<Renderer>().material = dissolveMaterial;*/
         destroying = true;
     }
 
