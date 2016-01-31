@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class DotPuzzle : MonoBehaviour {
@@ -19,12 +20,11 @@ public class DotPuzzle : MonoBehaviour {
     bool firstClick = false;
     bool puzzleSolved = false;
     float timeToSolve = 0;
-    float transitionSeconds = 3.0f;
+    float transitionSeconds = 3.5f;
 
     public static int Reward;
     GameObject intentText;
     GameObject rewardText;
-    GameObject rewardImage;
 
 	// Use this for initialization
 	void Start () {
@@ -35,8 +35,6 @@ public class DotPuzzle : MonoBehaviour {
         intentText = GameObject.Find("IntentText");
         rewardText = GameObject.Find("RewardText");
         rewardText.SetActive(false);
-        rewardImage = GameObject.Find("RewardImage");
-        rewardImage.SetActive(false);
         mouseBandage = GameObject.Find("BandageMouse");
         bandage.SetActive(false);
 
@@ -47,21 +45,20 @@ public class DotPuzzle : MonoBehaviour {
     void Update()
     {
         timeToSolve += Time.deltaTime;
-        //if (!puzzleSolved) intentText.GetComponent<TextMesh>().text = Mathf.Round(timeToSolve * 10f) / 10f + "";
 
         switch (intents)
         {
             case 0:
-                intentText.GetComponent<TextMesh>().text = "";
+                intentText.GetComponent<Text>().text = "";
                     break;
             case 1:
-                intentText.GetComponent<TextMesh>().text = "I";
+                intentText.GetComponent<Text>().text = "I";
                 break;
             case 2:
-                intentText.GetComponent<TextMesh>().text = "I I";
+                intentText.GetComponent<Text>().text = "I-I";
                 break;
             case 3:
-                intentText.GetComponent<TextMesh>().text = "I I I";
+                intentText.GetComponent<Text>().text = "I-I-I";
                 break;
         }
 
@@ -107,31 +104,36 @@ public class DotPuzzle : MonoBehaviour {
                         if (bandageNum >= 0) bandagesGUI[bandageNum].SetActive(false);
                         pointObjects[i].GetComponent<DotObject>().dotEnabled = true;
 
-                        RaycastHit hit;
+                        /*RaycastHit hit;
 
-                        //Debug.DrawLine(pointObjects[i].transform.position, startPoint, Color.red, 60);
-                        //Debug.DrawRay(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, Color.red, 60);
+                        Debug.DrawRay(startPoint, endPoint - startPoint, Color.red, 10);
 
-                        if (Physics.Raycast(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, out hit, 1000))
+                        if (Physics.Raycast(startPoint, endPoint - startPoint, out hit, 1000))
                         {
+                            //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 10);
+
                             hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
 
-                            //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
-
-                            if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
+                            /*if (Physics.Raycast(hit.collider.gameObject.transform.position, endPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                             {
-                                hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
+                                //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 10);
 
-                                //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
+                                hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
 
                                 if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                                 {
                                     hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
                                 }
                             }
+                        }*/
+
+                        RaycastHit[] hits = Physics.RaycastAll(startPoint, endPoint - startPoint, Vector3.Distance(startPoint, endPoint));
+                        for(int j = 0; j < hits.Length; j++)
+                        {
+                            hits[j].collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
                         }
 
-                        lineRenderers[bandageNum].GetComponent<LineRenderer>().SetPositions(new Vector3[] { startPoint, endPoint });
+                        if(bandageNum >= 0) lineRenderers[bandageNum].GetComponent<LineRenderer>().SetPositions(new Vector3[] { startPoint, endPoint });
                         startPoint = endPoint;
                     }
                 }
