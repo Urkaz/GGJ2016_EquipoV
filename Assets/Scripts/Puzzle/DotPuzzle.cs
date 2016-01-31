@@ -168,7 +168,7 @@ public class DotPuzzle : MonoBehaviour {
             //rewardText.GetComponent<TextMesh>().text = "+" + intents;
             //rewardImage.SetActive(true);
 
-            if (transitionSeconds <= 0) SceneManager.LoadScene(2);
+            if (transitionSeconds <= 0) SceneManager.LoadScene("Main");
         }
     }
 	
