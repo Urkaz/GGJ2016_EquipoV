@@ -24,7 +24,6 @@ public class DotPuzzle : MonoBehaviour {
     public static int Reward;
     GameObject intentText;
     GameObject rewardText;
-    GameObject rewardImage;
 
 	// Use this for initialization
 	void Start () {
@@ -35,8 +34,6 @@ public class DotPuzzle : MonoBehaviour {
         intentText = GameObject.Find("IntentText");
         rewardText = GameObject.Find("RewardText");
         rewardText.SetActive(false);
-        rewardImage = GameObject.Find("RewardImage");
-        rewardImage.SetActive(false);
         mouseBandage = GameObject.Find("BandageMouse");
         bandage.SetActive(false);
 
@@ -109,20 +106,13 @@ public class DotPuzzle : MonoBehaviour {
 
                         RaycastHit hit;
 
-                        //Debug.DrawLine(pointObjects[i].transform.position, startPoint, Color.red, 60);
-                        //Debug.DrawRay(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, Color.red, 60);
-
                         if (Physics.Raycast(pointObjects[i].transform.position, startPoint - pointObjects[i].transform.position, out hit, 1000))
                         {
                             hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
 
-                            //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
-
                             if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                             {
                                 hit.collider.gameObject.GetComponent<DotObject>().dotEnabled = true;
-
-                                //Debug.DrawRay(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, Color.red, 60);
 
                                 if (Physics.Raycast(hit.collider.gameObject.transform.position, startPoint - hit.collider.gameObject.transform.position, out hit, 1000))
                                 {

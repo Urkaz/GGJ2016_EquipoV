@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
+
 
 public class PlaceTrap : MonoBehaviour {
 
@@ -7,6 +9,10 @@ public class PlaceTrap : MonoBehaviour {
 
     public Transform trapPointsItem;
     private Transform[] trapPoints;
+
+    private int woolNum;
+    private int sandNum;
+    private int laserNum;  
 
     public int baseMoney = 200;
     public int bonusMoney = 500;
@@ -24,10 +30,19 @@ public class PlaceTrap : MonoBehaviour {
         for (int i = 0; i < trapPointsItem.childCount; i++) {
             trapPoints[i] = trapPointsItem.GetChild(i);
         }
+
+        //RANDOM VALUES, also add BONUS
+        laserNum = 10;
+        woolNum = 7;
+        sandNum = 5;
     }
 
     // Update is called once per frame
     void Update() {
+
+        GUIManager.guiManager.laserText.GetComponent<Text>().text = laserNum + "";
+        GUIManager.guiManager.woolText.GetComponent<Text>().text = woolNum + "";
+        GUIManager.guiManager.sandText.GetComponent<Text>().text = sandNum + "";
 
         if (money <= 0)
             return;
@@ -49,17 +64,20 @@ public class PlaceTrap : MonoBehaviour {
         }
         int key = -1;
         if (spawn) {
-            if (Input.GetKey(KeyCode.Alpha1)) { //Pinchos
+            if (Input.GetKey(KeyCode.Alpha1) && sandNum > 0) { //Pinchos
                 key = 0;
                 money -= 50;
+                sandNum--;
             }
-            else if (Input.GetKey(KeyCode.Alpha2)) { //Laser
+            else if (Input.GetKey(KeyCode.Alpha2) && laserNum > 0) { //Laser
                 key = 1;
                 money -= 50;
+                laserNum--;
             }
-            else if (Input.GetKey(KeyCode.Alpha3)) { //Bola
+            else if (Input.GetKey(KeyCode.Alpha3) && woolNum > 0) { //Bola
                 key = 2;
                 money -= 50;
+                woolNum--;
             }
 
             if (key != -1) {
