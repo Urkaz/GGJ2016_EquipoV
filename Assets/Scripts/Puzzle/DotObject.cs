@@ -4,16 +4,18 @@ using System.Collections;
 public class DotObject : MonoBehaviour {
 
     public bool dotEnabled = false;
-    Color mainColor;
+    public GameObject escarabajo;
+    public Texture enabledTexture;
+    Texture mainTexture;
 
     void Start()
     {
-        mainColor = GetComponent<MeshRenderer>().material.GetColor("_Color");
+        mainTexture = escarabajo.GetComponent<MeshRenderer>().material.GetTexture("_MainTex");
     }
 
     void Update()
     {
-        if(dotEnabled && gameObject.layer.Equals(LayerMask.NameToLayer("Result"))) GetComponent<MeshRenderer>().material.SetColor("_Color", Color.blue);
-        else GetComponent<MeshRenderer>().material.SetColor("_Color", mainColor);
+        if(dotEnabled && gameObject.layer.Equals(LayerMask.NameToLayer("Result"))) escarabajo.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", enabledTexture);
+        else escarabajo.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", mainTexture);
     }
 }
