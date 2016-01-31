@@ -49,5 +49,7 @@ public class GameManager : MonoBehaviour {
 
         GameObject.Find("Spawn").GetComponent<EnemySpawn>().enabled = true;
 
+        GetComponent<AudioSource>().enabled = true;
+
     }
 }
