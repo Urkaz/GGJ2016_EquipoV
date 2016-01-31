@@ -59,17 +59,26 @@ public class LaserTrap : TrapItem {
                 lineDistance2 = raycastDistance;
 
                 RaycastHit hitinfo1 = new RaycastHit();
-                if (Physics.Raycast(laserSpawn1.position, laserSpawn1.forward, out hitinfo1, raycastDistance, layerMask)) {
-                    lineDistance1 = Mathf.Abs(hitinfo1.point.z - laserSpawn1.position.z);
+                if (Physics.Raycast(laserSpawn1.position, -transform.forward, out hitinfo1, 10000, layerMask)) {
+                    if(!hitinfo1.collider.gameObject.name.Equals("Nivel1") && !hitinfo1.collider.gameObject.name.Equals("Wall"))
+                        Debug.Log(hitinfo1.collider.gameObject.name);
+                    //lineDistance1 = Mathf.Abs(hitinfo1.transform.position.z - (laserSpawn1.position - (transform.right * 2)).z);
                 }
 
                 RaycastHit hitinfo2 = new RaycastHit();
-                if (Physics.Raycast(laserSpawn2.position, laserSpawn2.forward, out hitinfo2, raycastDistance, layerMask)) {
-                    lineDistance2 = Mathf.Abs(hitinfo2.point.z - laserSpawn2.position.z);
+                if (Physics.Raycast(laserSpawn2.position, transform.forward, out hitinfo2, 10000,layerMask)) {
+                    if (!hitinfo2.collider.gameObject.name.Equals("Nivel1") && !hitinfo2.collider.gameObject.name.Equals("Wall"))
+                        Debug.Log(hitinfo2.collider.gameObject.name);
+                    //lineDistance2 = Mathf.Abs(hitinfo2.transform.position.z - (laserSpawn2.position + (transform.right * 2)).z);
                 }
 
-                lineRenderer1.SetPosition(1, new Vector3(0, 0, lineDistance1));
-                lineRenderer2.SetPosition(1, new Vector3(0, 0, lineDistance2));
+                if (hitinfo2.collider != null) {
+                    lineRenderer1.SetPosition(1, hitinfo2.collider.transform.position);
+
+                }
+                if (hitinfo1.collider != null) 
+                    lineRenderer2.SetPosition(1, hitinfo1.collider.transform.position);
+                
 
                 if (hitinfo1.collider != null) {
                     EnemyDamage ed = hitinfo1.collider.GetComponent<EnemyDamage>();

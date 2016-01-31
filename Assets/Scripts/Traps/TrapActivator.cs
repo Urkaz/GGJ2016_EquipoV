@@ -34,11 +34,13 @@ public class TrapActivator : MonoBehaviour {
                     
                     PointData pd = hit.collider.GetComponent<PointData>();
 
-                    if (pd.getID() == key) {
-                        pd.getItem().GetComponentInChildren<TrapItem>().ActivateTrap();
+                    if (pd != null) {
+                        if (pd.getID() == key) {
+                            pd.getItem().GetComponentInChildren<TrapItem>().ActivateTrap();
+                        }
+                        else
+                            pd.getItem().GetComponentInChildren<TrapItem>().enableCooldown();
                     }
-                    else
-                        pd.getItem().GetComponentInChildren<TrapItem>().enableCooldown();
                 }
             }
         }

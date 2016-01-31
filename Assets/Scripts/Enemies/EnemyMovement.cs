@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EnemyMovement : MonoBehaviour
-{
-    public enum Direction
-    {
+public class EnemyMovement : MonoBehaviour {
+    public enum Direction {
         Left,
         Right
     }
@@ -14,6 +12,8 @@ public class EnemyMovement : MonoBehaviour
     public Animator animator;
     private Direction direction = Direction.Left;
     private Direction prevDrection = Direction.Left;
+
+    private EnemySpawn spawner;
 
     public float movementSpeed = 5f;
     public float distanceForNextNode = 0.2f;
@@ -37,18 +37,15 @@ public class EnemyMovement : MonoBehaviour
     private Vector3 previousPosition = new Vector3(), actualPosition = new Vector3(), directionVector = new Vector3();
 
     // Use this for initialization
-    void Start()
-    {
+    void Start() {
         enemyRigidbody = GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         LookAtCamera();
 
-        if (mStartMoving)
-        {
+        if (mStartMoving) {
             previousPosition = transform.position;
             SetDirection();
             CheckNextNode();
@@ -57,28 +54,26 @@ public class EnemyMovement : MonoBehaviour
             actualPosition = transform.position;
             directionVector = actualPosition - previousPosition;
             relativeSpeed = (actualPosition - previousPosition).magnitude;
-            if (isOverFloor && relativeSpeed == 0)
-            {
+            if (isOverFloor && relativeSpeed == 0) {
                 timerDestroy += Time.deltaTime;
-                if (timerDestroy >= timerToDestroyIfStopped)
+                if (timerDestroy >= timerToDestroyIfStopped) {
+                    spawner.destroyEnemy(gameObject);
                     Destroy(this.gameObject);
+                }
             }
             else
                 timerDestroy = 0f;
         }
     }
 
-    void FixedUpdate()
-    {
-        if (!Physics.Raycast(transform.position, -transform.up, baseHitDistance, ignoreLayers))
-        {
+    void FixedUpdate() {
+        if (!Physics.Raycast(transform.position, -transform.up, baseHitDistance, ignoreLayers)) {
             littleJump = true;
             isOverFloor = false;
             animator.SetState(Animator.State.JUMP);
             //return;
         }
-        else
-        {
+        else {
             recover = true;
             isOverFloor = true;
             animator.SetState(Animator.State.WALK);
@@ -87,25 +82,21 @@ public class EnemyMovement : MonoBehaviour
         Jump();
     }
 
-    private void Jump()
-    {
+    private void Jump() {
 
-        if (littleJump && recover)
-        {
+        if (littleJump && recover) {
             Vector3 movementVector = mNode.transform.position - transform.position;
 
             Vector3 jumpDirection = new Vector3(0, jumpForceV, 0);
 
-            if (Mathf.Abs(movementVector.x) > Mathf.Abs(movementVector.z))
-            {
+            if (Mathf.Abs(movementVector.x) > Mathf.Abs(movementVector.z)) {
                 jumpDirection.z = 0;
                 if (movementVector.x < 0)
                     jumpDirection.x = -1 * jumpForceH;
                 else
                     jumpDirection.x = 1 * jumpForceH;
             }
-            else
-            {
+            else {
                 if (movementVector.z < 0)
                     jumpDirection.z = -1 * jumpForceH;
                 else
@@ -122,22 +113,19 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void SetDirection()
-    {
+    private void SetDirection() {
         directionVector.y = 0;
         directionVector.Normalize();
 
         float angle = Vector3.Angle(camera.transform.right, directionVector);
         //Debug.Log(angle);
-        if (angle < 90f)
-        {
+        if (angle < 90f) {
             direction = Direction.Right;
         }
         else
             direction = Direction.Left;
 
-        if (prevDrection != direction)
-        {
+        if (prevDrection != direction) {
             prevDrection = direction;
             Vector3 theScale = sprite.transform.localScale;
             theScale.x *= -1;
@@ -145,10 +133,10 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
-    private void MoveEnemy()
-    {
-        if (mNode == null)
-        {
+    private void MoveEnemy() {
+        if (mNode == null) {
+            GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerControl>().Damage();
+            spawner.destroyEnemy(gameObject);
             Destroy(this.gameObject);
             return;
         }
@@ -163,12 +151,10 @@ public class EnemyMovement : MonoBehaviour
         transform.position += movementVector;
     }
 
-    private void LookAtCamera()
-    {
+    private void LookAtCamera() {
         //stransform.LookAt(camera.transform);
         Vector3 rotation = new Vector3();
-        switch (camera.GetCardinalPosition())
-        {
+        switch (camera.GetCardinalPosition()) {
             case CardinalPosition.North:
                 rotation.y = 270;
                 break;
@@ -185,19 +171,21 @@ public class EnemyMovement : MonoBehaviour
         transform.rotation = Quaternion.Euler(rotation);
     }
 
-    private void CheckNextNode()
-    {
+    private void CheckNextNode() {
         if (Vector3.Distance(transform.position, mNode.transform.position) < distanceForNextNode)
             mNode = mNode.nextNode;
     }
-    private void ForceNextNode()
-    {
+    private void ForceNextNode() {
         mNode = mNode.nextNode;
     }
-    public void StartMoving(PathNode node, CameraRotation camera)
-    {
+    public void StartMoving(PathNode node, CameraRotation camera, EnemySpawn spawner) {
+        this.spawner = spawner;
         this.camera = camera;
         mStartMoving = true;
         mNode = node;
+    }
+
+    public EnemySpawn GetSpawner() {
+        return spawner;
     }
 }
