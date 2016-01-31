@@ -40,7 +40,7 @@ public class EnemyDamage : MonoBehaviour {
                 Destroy(gameObject);
             } 
 
-            dissolveMaterial.SetFloat("_SliceAmount", shaderSliceAmount);
+            //dissolveMaterial.SetFloat("_SliceAmount", shaderSliceAmount);
         }
     }
 }

@@ -18,7 +18,7 @@ public class PlaceTrap : MonoBehaviour {
 
     public LayerMask ignoredLayers;
 
-    private int money;
+    //private int money;
 
     // Use this for initialization
     void Start() {
@@ -38,13 +38,13 @@ public class PlaceTrap : MonoBehaviour {
 
 
         int key = -1;
-        if (Input.GetKey(KeyCode.Alpha1) && sandNum > 0) { //Pinchos
+        if (sandNum > 0 && Input.GetKeyDown(KeyCode.Alpha1)) { //Pinchos
             key = 0;
         }
-        else if (Input.GetKey(KeyCode.Alpha2) && laserNum > 0) { //Laser
+        if (woolNum > 0 && Input.GetKeyDown(KeyCode.Alpha2)) { //Bola
             key = 1;
         }
-        else if (Input.GetKey(KeyCode.Alpha3) && woolNum > 0) { //Bola
+        if (laserNum > 0 && Input.GetKeyDown(KeyCode.Alpha3)) { //Laser
             key = 2;
         }
 
@@ -62,15 +62,15 @@ public class PlaceTrap : MonoBehaviour {
 
                     switch (key) {
                         case 0:
-                            money -= 50;
+                            //money -= 50;
                             sandNum--;
                             break;
                         case 1:
-                            money -= 50;
+                            //money -= 50;
                             woolNum--;
                             break;
                         case 2:
-                            money -= 50;
+                            //money -= 50;
                             laserNum--;
                             break;
                     }
@@ -80,6 +80,6 @@ public class PlaceTrap : MonoBehaviour {
     }
 
     public void SetMoney(float reward) {
-        money = baseMoney + (int)(bonusMoney * reward);
+        //money = baseMoney + (int)(bonusMoney * reward);
     }
 }
