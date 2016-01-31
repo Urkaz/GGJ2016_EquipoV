@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class GameManager : MonoBehaviour {
@@ -12,11 +13,12 @@ public class GameManager : MonoBehaviour {
 
     private GameObject player;
 
+    private bool gameOver;
+
     void Start()
     {
         player = GameObject.FindWithTag("Player");
         player.GetComponent<PlaceTrap>().SetMoney(DotPuzzle.Reward);
-
     }
 
     public void Awake() {
@@ -51,5 +53,14 @@ public class GameManager : MonoBehaviour {
 
         GetComponent<AudioSource>().enabled = true;
 
+    }
+
+    public void GameOver(bool win) {
+        gameOver = win;
+        SceneManager.LoadScene("GameOver");
+    }
+
+    public bool inWin() {
+        return gameOver;
     }
 }

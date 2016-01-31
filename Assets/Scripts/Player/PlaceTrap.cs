@@ -52,7 +52,7 @@ public class PlaceTrap : MonoBehaviour {
             RaycastHit hit;
             if (Physics.Raycast(transform.position, cam.transform.forward, out hit, 20, ignoredLayers)) {
                 if (hit.collider.CompareTag("Trap")) {
-                    Transform tr = Instantiate(trapList[key], hit.collider.transform.position, hit.collider.transform.rotation) as Transform;
+                    Transform tr = Instantiate(trapList[key], hit.collider.transform.position, Camera.main.transform.rotation) as Transform;
                     PointData pd = hit.collider.GetComponent<PointData>();
 
                     if (pd.getItem() != null)

@@ -49,51 +49,13 @@ public class GroundTrap : TrapItem {
                 }
                 break;
         }
-
-        /*Debug.Log(displaced);
-
-        switch (state) {
-            case State.DISABLED:
-                state = State.DOWN;
-                break;
-            //El laser baja
-            case State.DOWN:
-                if (displaced < heightDisplacement) {
-                    transform.Translate(0, delta, 0);
-                    displaced += delta;
-                }
-                else {
-                    transform.localPosition = new Vector3(0, heightDisplacement, 0);
-                    state = State.STATIC;
-                }
-                break;
-            //El laser está activo
-            case State.STATIC:
-                timer += delta;
-                if (timer > timeToStop) {
-                    state = State.UP;
-                    timer = 0;
-                    displaced = 0;
-                }
-                break;
-            //El laser sube
-            case State.UP:
-                if ((displaced - delta) > 0) {
-                    transform.Translate(0, -delta, 0);
-                    displaced += delta;
-                }
-                else {
-                    transform.localPosition = new Vector3(0, 0, 0);
-                    state = State.DISABLED;
-                    isEnabled = false;
-                }
-                break;
-        }*/
     }
 
-    public void OnTriggerEnter(Collider collider) {
-        EnemyDamage ed = collider.GetComponent<EnemyDamage>();
-        if(ed != null) {
+    void OnTriggerEnter(Collider other) {
+        /*if (state != State.UP || state != State.STATIONARY)
+            return;*/
+        EnemyDamage ed = other.GetComponent<EnemyDamage>();
+        if(ed != null && isEnabled) {
             ed.Damage(1);
         }
     }

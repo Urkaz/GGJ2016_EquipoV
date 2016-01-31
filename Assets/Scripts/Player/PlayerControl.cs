@@ -6,6 +6,8 @@ public class PlayerControl : MonoBehaviour {
     public float maxSpeed = 50f;
     public float playerSpeed = 10f;
 
+    public int health = 1;
+
     public CameraRotation camera;
     private CardinalPosition mCardinalPosition;
 
@@ -123,5 +125,11 @@ public class PlayerControl : MonoBehaviour {
 
 
         transform.position += force;
+    }
+
+    public void Damage() {
+        health--;
+        if (health <= 0)
+            GameManager.Instance.GameOver(false);
     }
 }

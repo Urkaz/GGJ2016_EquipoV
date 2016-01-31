@@ -28,8 +28,6 @@ public class BallOfWoolTrap : TrapItem {
             }
         }
         else {
-
-
             if (currentAngle - rotationAngle > -maxAngle) {
                 transform.Rotate(new Vector3(0, 0, -rotationAngle));
             }
@@ -41,9 +39,9 @@ public class BallOfWoolTrap : TrapItem {
         }
     }
 
-    public void OnTriggerEnter(Collider collider) {
-        EnemyDamage ed = collider.GetComponent<EnemyDamage>();
-        if (ed != null) {
+    void OnTriggerEnter(Collider other) {
+        EnemyDamage ed = other.GetComponent<EnemyDamage>();
+        if (ed != null && isEnabled) {
             ed.Damage(1);
         }
     }
