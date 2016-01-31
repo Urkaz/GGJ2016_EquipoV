@@ -20,6 +20,8 @@ public class LaserTrap : TrapItem {
 
     public float heightDisplacement = 0.5f;
 
+    public LayerMask layerMask;
+
     private ArrayList collidedEnemies;
 
     // Use this for initialization
@@ -57,12 +59,12 @@ public class LaserTrap : TrapItem {
                 lineDistance2 = raycastDistance;
 
                 RaycastHit hitinfo1 = new RaycastHit();
-                if (Physics.Raycast(laserSpawn1.position, laserSpawn1.forward, out hitinfo1, raycastDistance)) {
+                if (Physics.Raycast(laserSpawn1.position, laserSpawn1.forward, out hitinfo1, raycastDistance, layerMask)) {
                     lineDistance1 = Mathf.Abs(hitinfo1.point.z - laserSpawn1.position.z);
                 }
 
                 RaycastHit hitinfo2 = new RaycastHit();
-                if (Physics.Raycast(laserSpawn2.position, laserSpawn2.forward, out hitinfo2, raycastDistance)) {
+                if (Physics.Raycast(laserSpawn2.position, laserSpawn2.forward, out hitinfo2, raycastDistance, layerMask)) {
                     lineDistance2 = Mathf.Abs(hitinfo2.point.z - laserSpawn2.position.z);
                 }
 

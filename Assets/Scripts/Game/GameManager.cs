@@ -44,11 +44,12 @@ public class GameManager : MonoBehaviour {
         GUIManager.guiManager.laserText.SetActive(false);
         GUIManager.guiManager.woolText.SetActive(false);
         GUIManager.guiManager.sandText.SetActive(false);
-        GUIManager.guiManager.enemiesText.SetActive(false);
 
         player.GetComponent<TrapActivator>().enabled = true;
 
         GameObject.Find("Spawn").GetComponent<EnemySpawn>().enabled = true;
+
+        GetComponent<AudioSource>().enabled = true;
 
     }
 }
