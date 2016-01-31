@@ -13,6 +13,10 @@ public class DotPuzzle : MonoBehaviour {
     int bandageNum = 4;
     int intents = 3;
     GameObject mouseBandage;
+    AudioSource bandageSound;
+
+    public AudioClip bandageClip;
+    public AudioClip meowClip;
 
     Vector3 startPoint;
     Vector3 endPoint;
@@ -20,11 +24,13 @@ public class DotPuzzle : MonoBehaviour {
     bool firstClick = false;
     bool puzzleSolved = false;
     float timeToSolve = 0;
-    float transitionSeconds = 3.5f;
+    float transitionSeconds = 2.5f;
 
     public static int Reward;
     GameObject intentText;
     GameObject rewardText;
+
+    GameObject tutorialImage;
 
 	// Use this for initialization
 	void Start () {
@@ -38,12 +44,25 @@ public class DotPuzzle : MonoBehaviour {
         mouseBandage = GameObject.Find("BandageMouse");
         bandage.SetActive(false);
 
+        tutorialImage = GameObject.Find("Tutorial");
+        tutorialImage.SetActive(false);
+
         startPoint = new Vector3();
         endPoint = new Vector3();
+
+        bandageSound = GetComponent<AudioSource>();
+        bandageSound.clip = bandageClip;
 	}
 
     void Update()
     {
+
+        if (Input.GetMouseButton(1))
+        {
+            tutorialImage.SetActive(true);
+        }
+        else tutorialImage.SetActive(false);
+
         timeToSolve += Time.deltaTime;
 
         switch (intents)
@@ -103,6 +122,7 @@ public class DotPuzzle : MonoBehaviour {
                         bandageNum--;
                         if (bandageNum >= 0) bandagesGUI[bandageNum].SetActive(false);
                         pointObjects[i].GetComponent<DotObject>().dotEnabled = true;
+                        bandageSound.Play();
 
                         /*RaycastHit hit;
 
@@ -170,7 +190,12 @@ public class DotPuzzle : MonoBehaviour {
             //rewardText.GetComponent<TextMesh>().text = "+" + intents;
             //rewardImage.SetActive(true);
 
-            if (transitionSeconds <= 0) SceneManager.LoadScene("Main");
+            if (transitionSeconds <= 0)
+            {
+                bandageSound.clip = meowClip;
+                bandageSound.Play();
+                SceneManager.LoadScene("Main");
+            }
         }
     }
 	
