@@ -57,10 +57,11 @@ public class GameManager : MonoBehaviour {
 
     public void GameOver(bool win) {
         gameOver = win;
+        GetComponent<AudioSource>().Stop();
         SceneManager.LoadScene("GameOver");
     }
 
-    public bool inWin() {
+    public bool isWin() {
         return gameOver;
     }
 }
