@@ -5,18 +5,12 @@ public class PlaceTrap : MonoBehaviour {
 
     public Transform[] trapList;
 
-    //public Transform trapPointsItem;
-    //private Transform[] trapPoints;
-
     private Camera cam;
 
     public int baseMoney = 200;
     public int bonusMoney = 500;
 
-    //private float radius = 0.75f;
-    //private int trapIndex;
-
-    private bool spawn = false;
+    public LayerMask ignoredLayers;
 
     private int money;
 
@@ -74,6 +68,5 @@ public class PlaceTrap : MonoBehaviour {
 
     public void SetMoney(float reward) {
         money = baseMoney + (int)(bonusMoney * reward);
-        Debug.Log(money);
     }
 }
