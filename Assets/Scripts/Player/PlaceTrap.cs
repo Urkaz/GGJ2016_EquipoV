@@ -103,5 +103,6 @@ public class PlaceTrap : MonoBehaviour {
 
     public void SetMoney(float reward) {
         this.money = baseMoney + (int)(bonusMoney * reward);
+        Debug.Log(money);
     }
 }

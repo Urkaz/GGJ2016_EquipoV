@@ -6,7 +6,7 @@ public class Animator : MonoBehaviour {
     public Sprite[] walkFrames;
     public Sprite[] jumpFrames;
 
-    enum State { WALK, JUMP };
+    public enum State { WALK, JUMP };
     private State currentState = State.WALK;
 
     public float timeBetweenFrames = 0.1f;
@@ -28,11 +28,23 @@ public class Animator : MonoBehaviour {
             currentIndex++;
             timer = 0;
             if (currentState == State.WALK) {
-                if (currentIndex == walkFrames.Length) {
+                if (currentIndex >= walkFrames.Length) {
                     currentIndex = 0;
                 }
                 sr.sprite = walkFrames[currentIndex];
             }
+            else if (currentState == State.JUMP)
+            {
+                if (currentIndex >= jumpFrames.Length)
+                {
+                    currentIndex = 0;
+                }
+                sr.sprite = jumpFrames[currentIndex];
+            }
         }
+    }
+    public void SetState(State state)
+    {
+        currentState = state;
     }
 }
