@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour {
     public void loadLevel(int level) {
         switch(level) {
             case 0:
-                GameObject go = Resources.Load("Prefabs/LevelTest") as GameObject;
+                GameObject go = Resources.Load("Prefabs/Levels/Level01") as GameObject;
                 GameObject p = Instantiate(go, Vector3.zero, Quaternion.identity) as GameObject;
                 p.name = "Level Test (id:0)";
                 break;

@@ -1,37 +1,15 @@
 fileFormatVersion: 2
-guid: 8b9d4eaf3ba5b8b468e88f5af83fbe4a
-timeCreated: 1454155556
+guid: a1b8417b79bac434788aa822d20a47d1
+timeCreated: 1454203265
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
   fileIDToRecycleName:
-    100000: East
-    100002: North
-    100004: //RootNode
-    100006: South
-    100008: West
-    400000: East
-    400002: North
-    400004: //RootNode
-    400006: South
-    400008: West
-    2300000: East
-    2300002: North
-    2300004: South
-    2300006: West
-    2300008: //RootNode
-    3300000: East
-    3300002: North
-    3300004: South
-    3300006: West
-    3300008: //RootNode
-    4300000: West
-    4300002: South
-    4300004: East
-    4300006: North
-    4300008: Cone
-    7400000: Default Take
-    9500000: //RootNode
+    100000: //RootNode
+    400000: //RootNode
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Cube.004
   materials:
     importMaterials: 1
     materialName: 0
@@ -90,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 

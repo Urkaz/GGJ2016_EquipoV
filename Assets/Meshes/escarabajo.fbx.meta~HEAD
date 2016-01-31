@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 5d85340ecbf83a84c9a84e7543b9ed4e
-timeCreated: 1454202343
+guid: 57ba8ae46741cc244a7d1ff200a1cf9c
+timeCreated: 1454203265
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Cube.004
+    4300000: patas_delanteras_Cube.002
   materials:
     importMaterials: 1
     materialName: 0

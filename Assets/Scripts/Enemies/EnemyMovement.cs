@@ -128,7 +128,7 @@ public class EnemyMovement : MonoBehaviour
         directionVector.Normalize();
 
         float angle = Vector3.Angle(camera.transform.right, directionVector);
-        Debug.Log(angle);
+        //Debug.Log(angle);
         if (angle < 90f)
         {
             direction = Direction.Right;

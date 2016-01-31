@@ -1,0 +1,78 @@
+﻿Merge remote-tracking branch 'refs/remotes/origin/master' into Landa
+
+# Conflicts:
+#	Assets/Images/Textura escarabajo.meta
+#	Assets/Images/Textura escarabajo/escarabajo_color.png.meta
+#	Assets/Images/Textura escarabajo/escarabajo_color_desactivado.png.meta
+#	Assets/Images/Textura escarabajo/escarabajo_color_secundario.png.meta
+#	Assets/Images/textura_piramide_final.png.meta
+#	Assets/Meshes/Materials/textura_piramide_final.mat
+#	Assets/Meshes/Materials/textura_piramide_final.mat.meta
+#	Assets/Resources/Images/piramide_pasillo_color.jpg.meta
+#	Assets/Scenes/Main.unity
+#	Assets/Scripts/Player/PlaceTrap.cs
+#
+# It looks like you may be committing a merge.
+# If this is not correct, please remove the file
+#	.git/MERGE_HEAD
+# and try again.
+
+
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch Landa
+# Your branch is up-to-date with 'origin/Landa'.
+#
+# All conflicts fixed but you are still merging.
+#
+# Changes to be committed:
+#	modified:   .gitignore
+#	new file:   Assets/Meshes/Materials/escarabajo.mat
+#	renamed:    Assets/Resources/Prefabs/LevelTest.prefab.meta -> Assets/Meshes/Materials/escarabajo.mat.meta
+#	new file:   Assets/Meshes/Materials/piramide_pasillo_color.mat
+#	new file:   Assets/Meshes/Materials/piramide_pasillo_color.mat.meta
+#	new file:   Assets/Meshes/Materials/textura_rocas_2.mat
+#	new file:   Assets/Meshes/Materials/textura_rocas_2.mat.meta
+#	modified:   Assets/Meshes/Piramide_basica.fbx.meta
+#	new file:   Assets/Meshes/Piramide_basica_conParedes.fbx
+#	renamed:    Assets/Meshes/testCubo.blend.meta -> Assets/Meshes/Piramide_basica_conParedes.fbx.meta
+#	new file:   Assets/Meshes/Piramide_final.fbx
+#	renamed:    Assets/Meshes/piramide.blend.meta -> Assets/Meshes/Piramide_final.fbx.meta
+#	deleted:    Assets/Meshes/bola3.mtl
+#	modified:   Assets/Meshes/escarabajo.fbx.meta
+#	deleted:    Assets/Meshes/piramide.blend
+#	deleted:    Assets/Meshes/testCubo.blend
+#	modified:   Assets/Prefabs/Enemies/Big.prefab
+#	modified:   Assets/Prefabs/Enemies/BiggieSmall.prefab
+#	modified:   Assets/Prefabs/Enemies/Medium.prefab
+#	new file:   Assets/Prefabs/Interface.prefab
+#	new file:   Assets/Prefabs/Interface.prefab.meta
+#	modified:   Assets/Prefabs/Traps/WoolTrap.prefab
+#	modified:   Assets/Resources/PiramidMenu.fbm.meta
+#	deleted:    Assets/Resources/Prefabs/LevelTest.prefab
+#	new file:   Assets/Resources/Prefabs/Levels.meta
+#	new file:   Assets/Resources/Prefabs/Levels/Level01.prefab
+#	new file:   Assets/Resources/Prefabs/Levels/Level01.prefab.meta
+#	deleted:    Assets/Scenes/BorjaMod.unity
+#	modified:   Assets/Scenes/Main.unity.meta
+#	new file:   Assets/Scenes/MainMalo.unity
+#	renamed:    Assets/Meshes/bola3.mtl.meta -> Assets/Scenes/MainMalo.unity.meta
+#	new file:   Assets/Scenes/NO.meta
+#	renamed:    Assets/Scenes/Borja.unity -> Assets/Scenes/NO/Borja.unity
+#	renamed:    Assets/Scenes/Borja.unity.meta -> Assets/Scenes/NO/Borja.unity.meta
+#	new file:   Assets/Scenes/NO/BorjaMod.unity
+#	renamed:    Assets/Scenes/BorjaMod.unity.meta -> Assets/Scenes/NO/BorjaMod.unity.meta
+#	renamed:    Assets/Scenes/FranScene.unity -> Assets/Scenes/NO/FranScene.unity
+#	renamed:    Assets/Scenes/FranScene.unity.meta -> Assets/Scenes/NO/FranScene.unity.meta
+#	modified:   Assets/Scripts/Enemies/EnemyMovement.cs
+#	modified:   Assets/Scripts/Game/GameManager.cs
+#	modified:   Assets/Scripts/Player/PlaceTrap.cs
+#	modified:   Assets/Scripts/Puzzle/DotPuzzle.cs
+#	modified:   ProjectSettings/DynamicsManager.asset
+#	modified:   ProjectSettings/TagManager.asset
+#
+# Untracked files:
+#	Assets/Meshes/Piramide_basica.fbx.meta~HEAD
+#	Assets/Meshes/escarabajo.fbx.meta~HEAD
+#
+

@@ -7,8 +7,7 @@ public class PlaceTrap : MonoBehaviour {
 
     public Transform[] trapList;
 
-    public Transform trapPointsItem;
-    private Transform[] trapPoints;
+    private Camera cam;
 
     private int woolNum;
     private int sandNum;
@@ -17,10 +16,7 @@ public class PlaceTrap : MonoBehaviour {
     public int baseMoney = 200;
     public int bonusMoney = 500;
 
-    private float radius = 0.75f;
-    private int trapIndex;
-
-    private bool spawn = false;
+    public LayerMask ignoredLayers;
 
     private int money;
 
@@ -35,6 +31,7 @@ public class PlaceTrap : MonoBehaviour {
         laserNum = 10;
         woolNum = 7;
         sandNum = 5;
+        cam = Camera.main;
     }
 
     // Update is called once per frame
@@ -61,23 +58,9 @@ public class PlaceTrap : MonoBehaviour {
                 else
                     spawn = false;
             }
-        }
-        else if (transform.right.z == 1 || transform.right.z == -1) {
-            float dist;
-            for (int i = 0; i < trapPointsItem.childCount; i++) {
-                trapPoints[i] = trapPointsItem.GetChild(i);
-                dist = Vector2.Distance(new Vector2(transform.position.x, transform.position.y),
-                    new Vector2(trapPoints[i].position.x, trapPoints[i].position.y));
-                if (dist < radius) {
-                    trapIndex = i;
-                    spawn = true;
-                    break;
-                }
-                else
-                    spawn = false;
-            }
-        }
-
+        //if (money <= 0)
+            //return;
+		
         int key = -1;
         if (spawn) {
             if (Input.GetKey(KeyCode.Alpha1) && sandNum > 0) { //Pinchos
@@ -95,33 +78,39 @@ public class PlaceTrap : MonoBehaviour {
                 money -= 50;
                 woolNum--;
             }
+			
+        if (key != -1) {
 
-            if (key != -1) {
-                Quaternion rotation = Quaternion.Euler(
-                 new Vector3(360 - trapPoints[trapIndex].eulerAngles.x,
-                 trapList[1].eulerAngles.y,
-                 trapPoints[trapIndex].eulerAngles.z));
+            RaycastHit hit;
 
-                PointData pd = trapPoints[trapIndex].GetComponent<PointData>();
+            if (Physics.Raycast(transform.position, cam.transform.forward, out hit, 20)) {
+                if (hit.collider.CompareTag("Trap")) {
+                    Transform tr = Instantiate(trapList[key], hit.collider.transform.position, hit.collider.transform.rotation) as Transform;
+                    PointData pd = hit.collider.GetComponent<PointData>();
 
-                if (pd.getItem() != null)
-                    Destroy(pd.getItem().gameObject);
+                    if (pd.getItem() != null)
+                        Destroy(pd.getItem().gameObject);
 
-                if (transform.right.x == 1 || transform.right.x == -1) {
-                    Transform ti = (Transform)Instantiate(trapList[key], trapPoints[trapIndex].position, rotation);
-                    trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject, key);
-                }
-                else if (transform.right.z == 1 || transform.right.z == -1) {
-                    Transform ti = (Transform)Instantiate(trapList[key], trapPoints[trapIndex].position,
-                        Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z));
-                    trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject, key);
+                    pd.setItem(tr.gameObject, key);
+
+                    switch (key) {
+                        case 0:
+                            money -= 50;
+                            break;
+                        case 1:
+                            money -= 50;
+                            break;
+                        case 2:
+                            money -= 50;
+                            break;
+
+                    }
                 }
             }
         }
     }
 
     public void SetMoney(float reward) {
-        this.money = baseMoney + (int)(bonusMoney * reward);
-        Debug.Log(money);
+        money = baseMoney + (int)(bonusMoney * reward);
     }
 }
