@@ -62,6 +62,22 @@ public class PlaceTrap : MonoBehaviour {
                     spawn = false;
             }
         }
+        else if (transform.right.z == 1 || transform.right.z == -1) {
+            float dist;
+            for (int i = 0; i < trapPointsItem.childCount; i++) {
+                trapPoints[i] = trapPointsItem.GetChild(i);
+                dist = Vector2.Distance(new Vector2(transform.position.x, transform.position.y),
+                    new Vector2(trapPoints[i].position.x, trapPoints[i].position.y));
+                if (dist < radius) {
+                    trapIndex = i;
+                    spawn = true;
+                    break;
+                }
+                else
+                    spawn = false;
+            }
+        }
+
         int key = -1;
         if (spawn) {
             if (Input.GetKey(KeyCode.Alpha1) && sandNum > 0) { //Pinchos
@@ -95,12 +111,17 @@ public class PlaceTrap : MonoBehaviour {
                     Transform ti = (Transform)Instantiate(trapList[key], trapPoints[trapIndex].position, rotation);
                     trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject, key);
                 }
+                else if (transform.right.z == 1 || transform.right.z == -1) {
+                    Transform ti = (Transform)Instantiate(trapList[key], trapPoints[trapIndex].position,
+                        Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, transform.eulerAngles.z));
+                    trapPoints[trapIndex].GetComponent<PointData>().setItem(ti.gameObject, key);
+                }
             }
         }
     }
 
-    public void SetMoney(float reward)
-    {
+    public void SetMoney(float reward) {
         this.money = baseMoney + (int)(bonusMoney * reward);
+        Debug.Log(money);
     }
 }

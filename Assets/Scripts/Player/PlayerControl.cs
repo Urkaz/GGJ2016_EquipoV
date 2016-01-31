@@ -26,11 +26,11 @@ public class PlayerControl : MonoBehaviour {
 	void Update () {
         CardinalPosition cameraCardinalPosition = camera.GetPreviousCardinalPosition();
 
-	    if(mCardinalPosition != cameraCardinalPosition)
+	    /*if(mCardinalPosition != cameraCardinalPosition)
         {
             mCardinalPosition = cameraCardinalPosition;
             ChangePosition(mCardinalPosition);
-        }
+        }*/
         PlayerMovement();
     }
 
@@ -62,8 +62,35 @@ public class PlayerControl : MonoBehaviour {
         transform.position = newPlayerPosition;
     }
 
+    private Vector3 ChangePosition(CardinalPosition cardinalPosition, Vector3 cursorPosition)
+    {
+
+        Vector3 newPlayerPosition = cursorPosition;
+
+        switch (cardinalPosition)
+        {
+            case CardinalPosition.North:
+                newPlayerPosition.x = northWall.position.x;
+                break;
+            case CardinalPosition.South:
+                newPlayerPosition.x = southWall.position.x;
+                break;
+            case CardinalPosition.East:
+                newPlayerPosition.z = eastWall.position.z;
+                break;
+            case CardinalPosition.West:
+                newPlayerPosition.z = westWall.position.z;
+                break;
+        }
+        return newPlayerPosition;
+    }
+
     private void PlayerMovement()
     {
+        Vector3 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        transform.position = ChangePosition(camera.GetCardinalPosition(), cursorPosition);
+        return;
+        
 
         if (Input.GetAxis("Vertical") == 0 && Input.GetAxis("Horizontal") == 0)
             return;

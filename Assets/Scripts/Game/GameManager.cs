@@ -12,6 +12,13 @@ public class GameManager : MonoBehaviour {
 
     private GameObject player;
 
+    void Start()
+    {
+        player = GameObject.FindWithTag("Player");
+        player.GetComponent<PlaceTrap>().SetMoney(DotPuzzle.Reward);
+
+    }
+
     public void Awake() {
         DontDestroyOnLoad(this);
         instance = this;
@@ -26,7 +33,7 @@ public class GameManager : MonoBehaviour {
                 p.name = "Level Test (id:0)";
                 break;
         }
-
+        
         player = GameObject.FindWithTag("Player");
         player.GetComponent<PlaceTrap>().SetMoney(DotPuzzle.Reward);
     }

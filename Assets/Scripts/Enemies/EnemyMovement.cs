@@ -3,6 +3,17 @@ using System.Collections;
 
 public class EnemyMovement : MonoBehaviour
 {
+    public enum Direction
+    {
+        Left,
+        Right
+    }
+
+
+    public GameObject sprite;
+    public Animator animator;
+    private Direction direction = Direction.Left;
+    private Direction prevDrection = Direction.Left;
 
     public float movementSpeed = 5f;
     public float distanceForNextNode = 0.2f;
@@ -10,7 +21,7 @@ public class EnemyMovement : MonoBehaviour
     public float jumpForceV = 5f;
     public float jumpForceH = 5f;
     public LayerMask ignoreLayers;
-    
+
     private CameraRotation camera;
     private PathNode mNode;
     private bool mStartMoving = false;
@@ -23,7 +34,7 @@ public class EnemyMovement : MonoBehaviour
     private float timerToDestroyIfStopped = 0.5f;
     private float timerDestroy = 0f;
     private float relativeSpeed = 1f;
-    private Vector3 previousPosition = new Vector3(), actualPosition = new Vector3();
+    private Vector3 previousPosition = new Vector3(), actualPosition = new Vector3(), directionVector = new Vector3();
 
     // Use this for initialization
     void Start()
@@ -35,16 +46,18 @@ public class EnemyMovement : MonoBehaviour
     void Update()
     {
         LookAtCamera();
+
         if (mStartMoving)
         {
             previousPosition = transform.position;
-            
+            SetDirection();
             CheckNextNode();
             MoveEnemy();
 
             actualPosition = transform.position;
+            directionVector = actualPosition - previousPosition;
             relativeSpeed = (actualPosition - previousPosition).magnitude;
-            if (isOverFloor && relativeSpeed== 0)
+            if (isOverFloor && relativeSpeed == 0)
             {
                 timerDestroy += Time.deltaTime;
                 if (timerDestroy >= timerToDestroyIfStopped)
@@ -61,12 +74,14 @@ public class EnemyMovement : MonoBehaviour
         {
             littleJump = true;
             isOverFloor = false;
+            animator.SetState(Animator.State.JUMP);
             //return;
         }
         else
         {
             recover = true;
             isOverFloor = true;
+            animator.SetState(Animator.State.WALK);
         }
 
         Jump();
@@ -81,17 +96,17 @@ public class EnemyMovement : MonoBehaviour
 
             Vector3 jumpDirection = new Vector3(0, jumpForceV, 0);
 
-            if(Mathf.Abs(movementVector.x) > Mathf.Abs(movementVector.z))
+            if (Mathf.Abs(movementVector.x) > Mathf.Abs(movementVector.z))
             {
                 jumpDirection.z = 0;
-                if(movementVector.x < 0)
+                if (movementVector.x < 0)
                     jumpDirection.x = -1 * jumpForceH;
                 else
                     jumpDirection.x = 1 * jumpForceH;
             }
             else
             {
-                if(movementVector.z < 0)
+                if (movementVector.z < 0)
                     jumpDirection.z = -1 * jumpForceH;
                 else
                     jumpDirection.z = 1 * jumpForceH;
@@ -107,6 +122,29 @@ public class EnemyMovement : MonoBehaviour
         }
     }
 
+    private void SetDirection()
+    {
+        directionVector.y = 0;
+        directionVector.Normalize();
+
+        float angle = Vector3.Angle(camera.transform.right, directionVector);
+        Debug.Log(angle);
+        if (angle < 90f)
+        {
+            direction = Direction.Right;
+        }
+        else
+            direction = Direction.Left;
+
+        if (prevDrection != direction)
+        {
+            prevDrection = direction;
+            Vector3 theScale = sprite.transform.localScale;
+            theScale.x *= -1;
+            sprite.transform.localScale = theScale;
+        }
+    }
+
     private void MoveEnemy()
     {
         if (mNode == null)
@@ -118,7 +156,7 @@ public class EnemyMovement : MonoBehaviour
             return;
 
         Vector3 movementVector = mNode.transform.position - transform.position;
-        
+
         movementVector.y = 0;
         movementVector.Normalize();
         movementVector *= movementSpeed * Time.deltaTime;

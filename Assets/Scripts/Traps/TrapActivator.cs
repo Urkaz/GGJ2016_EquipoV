@@ -7,25 +7,24 @@ public class TrapActivator : MonoBehaviour {
     private Transform[] trapPoints;
 
     private float activationRadius = 0.75f;
-    private int key = -1;
-
     // Use this for initialization
     void Start() {
         trapPoints = new Transform[trapPointsItem.childCount];
         for (int i = 0; i < trapPointsItem.childCount; i++) {
             trapPoints[i] = trapPointsItem.GetChild(i);
         }
-    }  
+    }
 
     // Update is called once per frame
-    void Update () {
-        if (Input.GetKey(KeyCode.Alpha1)) {
+    void Update() {
+        int key = -1;
+        if (Input.GetKeyDown(KeyCode.Alpha1)) {
             key = 0;
         }
-        else if (Input.GetKey(KeyCode.Alpha2)) {
+        else if (Input.GetKeyDown(KeyCode.Alpha2)) {
             key = 1;
         }
-        else if (Input.GetKey(KeyCode.Alpha3)) {
+        else if (Input.GetKeyDown(KeyCode.Alpha3)) {
             key = 2;
         }
 
@@ -36,7 +35,28 @@ public class TrapActivator : MonoBehaviour {
                 dist = Vector2.Distance(new Vector2(transform.position.y, transform.position.z),
                     new Vector2(trapPoints[i].position.y, trapPoints[i].position.z));
                 if (dist < activationRadius) {
-                    trapPoints[i].GetComponent<PointData>().getItem().GetComponent<TrapItem>().ActivateTrap();
+                    PointData pd = trapPoints[i].GetComponent<PointData>();
+
+                    Transform tr;
+                    if (pd.getID() == key) {
+                        switch (key) {
+                            case 0:
+                                tr = pd.getItem().transform.Find("Sand");
+                                tr.gameObject.GetComponent<TrapItem>().ActivateTrap();
+                                break;
+                            case 1:
+                                tr = pd.getItem().transform.Find("Pendulum");
+                                tr.gameObject.GetComponent<TrapItem>().ActivateTrap();
+                                break;
+                            case 2:
+                                tr = pd.getItem().transform.Find("LaserSupport");
+                                tr.gameObject.GetComponent<TrapItem>().ActivateTrap();
+                                break;
+                        }
+                    }
+                    else
+                        pd.getItem().GetComponent<TrapItem>().enableCooldown();
+
                     break;
                 }
             }
